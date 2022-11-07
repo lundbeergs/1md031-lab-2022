@@ -2,23 +2,25 @@
 <html lang="en">
    <head>
        <title>Ångströms hamburgare</title>
+       <link rel="stylesheet" type="text/css" href="style.css">
        <meta charset="utf-8"/>
    </head>
    <body>
         <header> 
             <h1> Välkommen till Ångströms hamburgare</h1>
-        </header>
+            <!-- <img class="header_image" src="https://www.adobe.com/content/dam/cc/us/en/creativecloud/video/discover/types-of-shots-in-films/desktop/types-of-shots-in-film_P1_900x420.jpg.img.jpg"/>
+        </header> -->
         <main>
-            <section> 
+            <section id="burgers"> 
                 <h2> Välj hamburgare</h2>
                 <p> Det är här du väljer din hamburgare</p>
                 <div style="display: inline-block;">
                     <h3> The Cheesy Burger</h3>
                     <img src="https://max-images.futureordering.com/images/product/7042/87FAD18CC8D6AF9262E5CB4EA0121FD6D/652x606.PNG" alt="En bild på The Cheesy Burger, med saftigt bröd, ost, tomat, rödlök och paty" title="The Cheesy Burger" width="250">
                     <ul>
-                        <li>Går att göra vegetarisk </li>
-                        <li>Innehåller gluten och mjölk</li>
-                        <li>Extremt god</li>
+                        <li>Går att göra vegetarisk</li>
+                        <li>Innehåller <span class = "allergy" > gluten </span> </li>
+                        <li>Innehåller <span class = "allergy" > mjölk </span></li>
                     </ul> 
                 </div>
                 <div style="display: inline-block;">
@@ -26,8 +28,8 @@
                     <img src="https://max-images.futureordering.com/images/product/12355/03677BCD4ACBAA32B2B9AC3003CD0BFCD/652x606.PNG" alt="En bild på The Halloumi Burger, med saftigt bröd, friterad halloumi, vegansk bacon, rödlök och BBQ sås" title="The Halloumi Burger" width="250">
                     <ul>
                         <li>Vegetarisk </li>
-                        <li>Innehåller gluten och mjölk</li>
-                        <li>Extremt god</li>
+                        <li>Innehåller <span class = "allergy" > gluten </span> </li>
+                        <li>Innehåller <span class = "allergy" > mjölk </span></li>
                     </ul> 
                 </div>
                 <div style="display: inline-block;">
@@ -35,13 +37,13 @@
                     <h3> The BBQ Chicken Burger</h3>
                     <img src="https://max-images.futureordering.com/images/product/12518/6A61F2B75F7816BCBE075ED18A3CFA42D/652x606.PNG" alt="En bild på The BBQ Chicken Burger, med saftigt bröd, coleslaw, BBQ sås och friterad kyckling" title="The BBQ Chicken Burger" width="250">
                     <ul>
-                        <li>Går att göra vegetarisk </li>
-                        <li>Innehåller gluten och mjölk</li>
-                        <li>Extremt god</li>
+                        <li>Går att göra vegetarisk</li>
+                        <li>Innehåller <span class = "allergy" > gluten </span></li>
+                        <li>Innehåller <span class = "allergy" > mjölk </span></li>
                     </ul> 
                 </div>
             </section>
-            <section>
+            <section id="info">
                 <h2> Customer information</h2>
                 <p> Det är här du ger oss nödvändig information</p>
                 <h3> Leveransinformation</h3>
@@ -90,8 +92,7 @@
                 </p>
                 </form>
                 <button type="submit">
-                    <img src="https://920428.smushcdn.com/2298683/wp-content/uploads/2016/05/Place-Order-Button-1.png?lossy=1&strip=1&webp=0" width="150">
-                    
+                    Place order
                   </button>
             </section>
         </main>
