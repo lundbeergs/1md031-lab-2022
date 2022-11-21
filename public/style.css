@@ -41,7 +41,7 @@ section {
 .wrapper {
     display: grid;
     grid-gap: 10px;
-    grid-template-columns: 70% 70% 70%;
+    grid-template-columns: 400px 400px 400px;
     color: white;
 }
 
