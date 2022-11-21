@@ -8,6 +8,10 @@
             <li v-if="burger.lactose"> Innehåller <span class = "allergy" > laktos </span> </li>
             <li v-if="burger.gluten"> Innehåller <span class = "allergy" > gluten </span></li>
         </ul> 
+        <div class="count">
+          <button v-on:click="remove"> - </button> {{amountOrdered}}
+          <button v-on:click="add"> + </button>
+        </div>
     </div>
 
   </template>
@@ -17,8 +21,34 @@
     name: 'OneBurger',
     props: {
       burger: Object
+    },
+
+    data: function () {
+    return {
+    amountOrdered: 0,
     }
-  }
+    },
+
+    methods: {
+      add: function() {
+        this.amountOrdered++;
+        this.$emit('orderedBurger',
+              {name: this.burger.name,
+              amount: this.amountOrdered});
+      },
+      remove: function(){
+        if(this.amountOrdered > 0){
+          this.amountOrdered--;
+        }
+        this.$emit('orderedBurger',
+              {name: this.burger.name,
+              amount: this.amountOrdered
+              }
+              )
+
+      }
+    }
+}
   </script>
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->

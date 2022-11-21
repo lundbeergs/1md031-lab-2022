@@ -22,7 +22,8 @@
                 <div class="wrapper">
                   <Burger v-for="burger in burgers"
                       v-bind:burger="burger"
-                      v-bind:key="burger.name"/>
+                      v-bind:key="burger.name"
+                      v-on:orderedBurger="addToOrder($event)"/>
 
                 <!-- <div class="box a">
                     <h3> The Cheesy Burger</h3>
@@ -60,25 +61,25 @@
                 <form>
                 <p>
                     <label for="fullname">Full name</label><br>
-                    <input type="text" id="fullname" name="fn" required="required" placeholder="First and last name">
+                    <input type="text" id="fullname" v-model="fullname" required="required" placeholder="First and last name">
                 </p>
                 <p>
                     <label for="email"> E-mail</label><br>
-                    <input type="email" id="email" name="em" required="required" placeholder="E-mail address">
+                    <input type="email" id="email" v-model="email" required="required" placeholder="E-mail address">
                 </p>
                 <p>
                     <label for="streetname"> Street</label><br>
-                    <input type="text" id="streetname" name="ln" placeholder="Streetname">
+                    <input type="text" id="streetname" v-model="streetname" placeholder="Streetname">
                 </p>
                 
                 <p>
                     <label for="streetnumber"> Streetnumber</label><br>
-                    <input type="number" id="streetnumber" name="ln" placeholder="Streetnumber">
+                    <input type="number" id="streetnumber" v-model="streetnumber" placeholder="Streetnumber">
                 </p>
                 <h3>Betalningsalternativ</h3>
                 <p>
                     <label for="payment"></label>
-                    <select id="payment" name="rcp">
+                    <select id="payment" v-model="payment">
                         <option>Swish</option>
                         <option selected="selected">Kort</option>
                         <option>Kontant</option>
@@ -89,21 +90,21 @@
                  <textarea cols="30" rows="4" maxlength="300"> </textarea>
                  <h3>Vänligen fyll i nedan</h3>
                  <p>
-                    <input type="radio" id="Male" name="rm" required="required" placeholder="Male">
+                    <input type="radio" id="Male" v-model="gender" value="Male" checked>
                     <label for="Male"> Male</label>
                 </p>
                 <p>
-                    <input type="radio" id="Female" name="rm" required="required" placeholder="Female">
+                    <input type="radio" id="Female" v-model="gender" value="Female">
                     <label for="Female"> Female</label>
                 </p>
                 <p>
-                    <input type="radio" id="Other" name="rm" required="required" placeholder="Other">
+                    <input type="radio" id="Other" v-model="gender" value="Other">
                     <label for="Other"> Other </label>
                 </p>
                 </form>
                 
             </section>
-            <button type="submit">
+            <button id="orders" v-on:click="markDone(key)" type="submit">
                     Place order
                   </button>
         </main>
@@ -145,26 +146,51 @@ export default {
   },
   data: function () {
     return {
-      burgers: menu
+      burgers: menu,
               // [ {name: "small burger", kCal: 250},
               //    {name: "standard burger", kCal: 450},
               //    {name: "large burger", kCal: 850}
               //  ]
+              fullname: '',
+              email: '',
+              streetname: '',
+              streetnumber: '',
+              payment: '',
+              gender:''
     }
   },
   methods: {
     getOrderNumber: function () {
       return Math.floor(Math.random()*100000);
     },
-    addOrder: function (event) {
-      var offset = {x: event.currentTarget.getBoundingClientRect().left,
-                    y: event.currentTarget.getBoundingClientRect().top};
-      socket.emit("addOrder", { orderId: this.getOrderNumber(),
-                                details: { x: event.clientX - 10 - offset.x,
-                                           y: event.clientY - 10 - offset.y },
-                                orderItems: ["Beans", "Curry"]
-                              }
-                 );
+
+    addToOrder: function (event) {
+      this.orderedBurgers[event.name] = event.amount;
+    },
+
+    // addOrder: function (event) {
+    //   var offset = {x: event.currentTarget.getBoundingClientRect().left,
+    //                 y: event.currentTarget.getBoundingClientRect().top};
+    //   socket.emit("addOrder", { orderId: this.getOrderNumber(),
+    //                             details: { x: event.clientX - 10 - offset.x,
+    //                                        y: event.clientY - 10 - offset.y },
+    //                             orderItems: ["Beans", "Curry"]
+    //                           }
+    //              );
+    // },
+
+    markDone:function() {
+      console.log(this.orderBurgers);
+      socket.emit("addOrder", { 
+          orderId: this.getOrderNumber(), 
+          details: {Namn: this.fullname,
+                    Gatunamn: this.streetname,
+                    Gatunummer: this.streetnumber,
+                    Email: this.email,
+                    Betalmetod: this.payment,
+                    Kön: this.gender
+          }, 
+          orderItems: this.orderBurgers})
     }
   }
 }
