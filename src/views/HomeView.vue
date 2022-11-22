@@ -64,15 +64,15 @@
                     <label for="email"> E-mail</label><br>
                     <input type="email" id="email" v-model="email" required="required" placeholder="E-mail address">
                 </p>
-                <p>
+                <!-- <p>
                     <label for="streetname"> Street</label><br>
                     <input type="text" id="streetname" v-model="streetname" placeholder="Streetname">
-                </p>
+                </p> -->
                 
-                <p>
+                <!-- <p>
                     <label for="streetnumber"> Streetnumber</label><br>
                     <input type="number" id="streetnumber" v-model="streetnumber" placeholder="Streetnumber">
-                </p>
+                </p> -->
                 <h3>Betalningsalternativ</h3>
                 <p>
                     <label for="payment"></label>
@@ -99,9 +99,17 @@
                     <label for="Other"> Other </label>
                 </p>
                 </form>
+
                 <div class="wrapper2">
-                <div id="map" v-on:click="addOrder">
-                click here
+                <div id="map" v-on:click="setLocation">
+                  <div id="dots">
+                    <div v-bind:style="{
+                      left: location.x + 'px',
+                      top: location.y + 'px'
+                    }">
+                      T
+                    </div>
+                  </div>
               </div>
             </div>
                 
@@ -156,8 +164,8 @@ export default {
               //  ]
               fullname: '',
               email: '',
-              streetname: '',
-              streetnumber: '',
+              // streetname: '',
+              // streetnumber: '',
               payment: 'Kort',
               gender:'',
               orderedBurgers: {},
@@ -180,32 +188,33 @@ export default {
       console.log("event.amount: " + event.amount);
     },
 
-    // addOrder: function (event) {
-    //   var offset = {x: event.currentTarget.getBoundingClientRect().left,
-    //                 y: event.currentTarget.getBoundingClientRect().top};
-    //   socket.emit("addOrder", { orderId: this.getOrderNumber(),
-    //                             details: { x: event.clientX - 10 - offset.x,
-    //                                        y: event.clientY - 10 - offset.y },
-    //                             orderItems: ["Beans", "Curry"]
-    //                           }
-    //              );
-    // },
+    setLocation: function (event) {
+        var offset = {x: event.currentTarget.getBoundingClientRect().left,
+                      y: event.currentTarget.getBoundingClientRect().top};
+        this.location = {
+                      x: event.clientX - 10 - offset.x,
+                      y: event.clientY - 10 - offset.y
+        }
+     },
 
     markDone:function() {
       console.log("I markDone")
-      console.log(this.fullname, this.streetname, this.streetnumber, this.email, this.payment, this.gender)
+      console.log(this.fullname, this.email, this.payment, this.gender)
       console.log(this.orderedBurgers)
       
       socket.emit("addOrder", { 
           orderId: this.getOrderNumber(), 
-          details: {Namn: this.fullname,
-                    Gatunamn: this.streetname,
-                    Gatunummer: this.streetnumber,
-                    Email: this.email,
-                    Betalmetod: this.payment,
-                    Kön: this.gender,
-                    orderItems: this.orderedBurgers
-          }, 
+          costName: this.fullname,
+                    // Gatunamn: this.streetname,
+                    // Gatunummer: this.streetnumber,
+          costEmail: this.email,
+          costPay: this.payment,
+          costGender: this.gender,
+          orderItems: this.orderedBurgers,
+          details: {x: this.location.x,
+                  y: this.location.y
+
+          } 
         });
     },
   }
