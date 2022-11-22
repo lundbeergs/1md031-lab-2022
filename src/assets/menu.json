@@ -1,0 +1,23 @@
+[
+    {
+      "name": "The Cheesy Burger",
+      "kCal": 300,
+      "url": "https://max-images.futureordering.com/images/product/7042/87FAD18CC8D6AF9262E5CB4EA0121FD6D/652x606.PNG",
+      "lactose": true,
+      "gluten": true
+    },
+    {
+        "name": "The Halloumi Burger",
+        "kCal": 400,
+        "url": "https://max-images.futureordering.com/images/product/12355/03677BCD4ACBAA32B2B9AC3003CD0BFCD/652x606.PNG",
+        "lactose": false,
+        "gluten": true
+    },
+    {
+        "name": "The BBQ Chicken Burger",
+        "kCal": 500,
+        "url": "https://max-images.futureordering.com/images/product/12518/6A61F2B75F7816BCBE075ED18A3CFA42D/652x606.PNG",
+        "lactose": false,
+        "gluten": false
+     }
+  ]
