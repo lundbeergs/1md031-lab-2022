@@ -19,11 +19,8 @@
             <section id="burgers"> 
                 <h2> Välj hamburgare</h2>
                 <p> Det är här du väljer din hamburgare</p>
-                <div class="wrapper">
-                  <Burger v-for="burger in burgers"
-                      v-bind:burger="burger"
-                      v-bind:key="burger.name"
-                      v-on:orderedBurger="addToOrder($event)"/>
+                <div class="wrapper1">
+                  <Burger v-for="burger in burgers" v-bind:burger="burger" v-bind:key="burger.name" v-on:orderedBurgers="addToOrder($event)"/>
 
                 <!-- <div class="box a">
                     <h3> The Cheesy Burger</h3>
@@ -102,9 +99,14 @@
                     <label for="Other"> Other </label>
                 </p>
                 </form>
+                <div class="wrapper2">
+                <div id="map" v-on:click="addOrder">
+                click here
+              </div>
+            </div>
                 
             </section>
-            <button id="orders" v-on:click="markDone(key)" type="submit">
+            <button id="orders" v-on:click="markDone()">
                     Place order
                   </button>
         </main>
@@ -124,29 +126,30 @@ const socket = io();
 
 //Object Constructor Function
 
-function MenuItem(n, kC, pic, lac, glu) {
-    this.name = n; // The *this* keyword refers to the object itself
-    this.kCal = kC;
-    this.url = pic;
-    this.lactose = lac;
-    this.gluten = glu;
-}
+// function MenuItem(n, kC, pic, lac, glu) {
+//     this.name = n; // The *this* keyword refers to the object itself
+//     this.kCal = kC;
+//     this.url = pic;
+//     this.lactose = lac;
+//     this.gluten = glu;
+// }
 
 // Objects are then instantiated using the *new* keyword
-const item = [new MenuItem('The Cheesy Burger', '300', 'https://max-images.futureordering.com/images/product/7042/87FAD18CC8D6AF9262E5CB4EA0121FD6D/652x606.PNG', 'true', 'true'), 
-              new MenuItem('The Halloumi Burger', '400', 'https://max-images.futureordering.com/images/product/12355/03677BCD4ACBAA32B2B9AC3003CD0BFCD/652x606.PNG', 'false', 'true'), 
-              new MenuItem('The BBQ Chicken Burger', '500', 'https://max-images.futureordering.com/images/product/12518/6A61F2B75F7816BCBE075ED18A3CFA42D/652x606.PNG', 'false', 'false')];
+// const item = [new MenuItem('The Cheesy Burger', '300', 'https://max-images.futureordering.com/images/product/7042/87FAD18CC8D6AF9262E5CB4EA0121FD6D/652x606.PNG', 'true', 'true'), 
+//               new MenuItem('The Halloumi Burger', '400', 'https://max-images.futureordering.com/images/product/12355/03677BCD4ACBAA32B2B9AC3003CD0BFCD/652x606.PNG', 'false', 'true'), 
+//               new MenuItem('The BBQ Chicken Burger', '500', 'https://max-images.futureordering.com/images/product/12518/6A61F2B75F7816BCBE075ED18A3CFA42D/652x606.PNG', 'false', 'false')];
 
-console.log( item ); 
+// console.log( item ); 
 
 export default {
   name: 'HomeView',
   components: {
     Burger
   },
+
   data: function () {
     return {
-      burgers: menu,
+              burgers: menu,
               // [ {name: "small burger", kCal: 250},
               //    {name: "standard burger", kCal: 450},
               //    {name: "large burger", kCal: 850}
@@ -155,8 +158,12 @@ export default {
               email: '',
               streetname: '',
               streetnumber: '',
-              payment: '',
-              gender:''
+              payment: 'Kort',
+              gender:'',
+              orderedBurgers: {},
+              location: { x: 0,
+                          y:0
+                        }
     }
   },
   methods: {
@@ -164,8 +171,13 @@ export default {
       return Math.floor(Math.random()*100000);
     },
 
+   
     addToOrder: function (event) {
+      console.log("I addToOrder")
       this.orderedBurgers[event.name] = event.amount;
+      console.log("event:", event);
+      console.log("event.name:", event.name);
+      console.log("event.amount: " + event.amount);
     },
 
     // addOrder: function (event) {
@@ -180,7 +192,10 @@ export default {
     // },
 
     markDone:function() {
-      console.log(this.orderBurgers);
+      console.log("I markDone")
+      console.log(this.fullname, this.streetname, this.streetnumber, this.email, this.payment, this.gender)
+      console.log(this.orderedBurgers)
+      
       socket.emit("addOrder", { 
           orderId: this.getOrderNumber(), 
           details: {Namn: this.fullname,
@@ -188,10 +203,11 @@ export default {
                     Gatunummer: this.streetnumber,
                     Email: this.email,
                     Betalmetod: this.payment,
-                    Kön: this.gender
+                    Kön: this.gender,
+                    orderItems: this.orderedBurgers
           }, 
-          orderItems: this.orderBurgers})
-    }
+        });
+    },
   }
 }
 </script>
@@ -237,7 +253,7 @@ section {
     padding: 2vh; 
 }
 
-.wrapper {
+.wrapper1 {
     display: grid;
     grid-gap: 10px;
     grid-template-columns: 30% 30% 30%;
@@ -302,6 +318,19 @@ button:hover {
     cursor: pointer;
 }
 
+.wrapper2 {
+  width: 100%;
+  height: 50vh;
+  overflow: scroll;
+  /* background-repeat: no-repeat; */
+  /* background-size: cover; */
+}
+
+#map {
+  width: 1920px;
+  height: 1078px;
+  background: url("/public/img/polacks.jpg");
+}
 
 
 /* Kommentar */

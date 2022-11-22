@@ -1,14 +1,14 @@
 <template>
   
     <div class="box">
-        <h3> {{ burger.name}}</h3>
-        <img class="burger_image" v-bind:src="burger.url" alt="">
+        <h3 v-bind:key="burger.name"> {{ burger.name}}</h3>
+        <img class="burger_image" v-bind:src="burger.url" alt="Burger">
         <ul>
             <li> {{burger.kCal}} kCal </li>
             <li v-if="burger.lactose"> Innehåller <span class = "allergy" > laktos </span> </li>
             <li v-if="burger.gluten"> Innehåller <span class = "allergy" > gluten </span></li>
         </ul> 
-        <div class="count">
+        <div class="burgercount">
           <button v-on:click="remove"> - </button> {{amountOrdered}}
           <button v-on:click="add"> + </button>
         </div>
@@ -17,7 +17,9 @@
   </template>
   
   <script>
-  export default {
+
+  export default{
+
     name: 'OneBurger',
     props: {
       burger: Object
@@ -25,31 +27,37 @@
 
     data: function () {
     return {
-    amountOrdered: 0,
+      amountOrdered: 0,
     }
     },
 
+
     methods: {
       add: function() {
+        console.log("I add")
         this.amountOrdered++;
-        this.$emit('orderedBurger',
+        this.$emit('orderedBurgers', 
               {name: this.burger.name,
-              amount: this.amountOrdered});
+              amount: this.amountOrdered
+            }
+            );
       },
+
       remove: function(){
-        if(this.amountOrdered > 0){
+        console.log("I remove")
+        if(this.amountOrdered > 0 ){
           this.amountOrdered--;
         }
-        this.$emit('orderedBurger',
+
+        this.$emit('orderedBurgers',
               {name: this.burger.name,
               amount: this.amountOrdered
               }
-              )
-
-      }
+              );
+      },
     }
 }
-  </script>
+</script>
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
